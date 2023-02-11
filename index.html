@@ -1,12 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl-PL">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SaveApp</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Damion&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    
+    <header>
+        <a href="#" class="logo">SaveApp</a>
+    </header>
+    <div class="wrapper">
+        <h1 class="budget-info"></h1>
+        <div class="table-wrapper">
+            <div class="income">
+                <div class="title-wrapper t1">
+                    <h2 class="income-title">Przychody</h2>
+                    <h2 class="expenses-title-mobile">Wydatki</h2>
+                </div>
+                <form action="#">
+                    <input type="text" class="input-name" placeholder="Nazwa przychodu">
+                    <input type="text" class="input-price" placeholder="Kwota">
+                    <input type="button" class="input-button" value="Dodaj">
+                </form>
+                <hr>
+                <div class="added-to-list">
+                    <p>Pensja - 3000zł</p>
+                    <div class="edit-delete-wrapper">
+                        <button class="edit-button">Edytuj</button>
+                        <button class="delete-button">Usuń</button>    
+                    </div>
+                </div>
+                <hr>
+                <p>Suma przychodów: x</p>
+            </div>
+            <div class="expenses">
+                <div class="title-wrapper t2">
+                    <h2 class="income-title-mobile">Przychody</h2>
+                    <h2 class="expenses-title">Wydatki</h2>    
+                </div>
+                <form action="#">
+                    <input type="text" class="input-name" placeholder="Nazwa wydatku">
+                    <input type="text" class="input-price" placeholder="Kwota">
+                    <input type="button" class="input-button" value="Dodaj">
+                </form>
+                <hr>
+                <div class="added-to-list">
+                    <p>Rachunki - 3000zł</p>
+                    <div class="edit-delete-wrapper">
+                        <button class="edit-button">Edytuj</button>
+                        <button class="delete-button">Usuń</button>    
+                    </div>
+                </div>
+                
+                <hr>
+                <p>Suma wydatków: x</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
