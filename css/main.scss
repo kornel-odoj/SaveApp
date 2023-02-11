@@ -26,7 +26,7 @@ header{
 .title-wrapper{
     display: flex;
     justify-content: space-around;
-    .expenses-title-mobile{
+    .expenses-title{
         opacity: 50%;
     }
     h2{
@@ -36,9 +36,7 @@ header{
         width: 100%;
     }
 }
-.t2{
-        display: none;
-    }
+
 form{
     display: flex;
     
@@ -78,11 +76,11 @@ form{
     }
 }
 .income{
+    display: block;
+}
+.expenses{
     display: none;
 }
-// .expenses{
-//     display: none;
-// }
 
 
 //desktop resolution

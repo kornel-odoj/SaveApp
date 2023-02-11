@@ -30,7 +30,7 @@ header a {
   display: flex;
   justify-content: space-around;
 }
-.title-wrapper .expenses-title-mobile {
+.title-wrapper .expenses-title {
   opacity: 50%;
 }
 .title-wrapper h2 {
@@ -38,10 +38,6 @@ header a {
 }
 .title-wrapper .income, .title-wrapper .expenses {
   width: 100%;
-}
-
-.t2 {
-  display: none;
 }
 
 form {
@@ -87,6 +83,10 @@ form input {
 }
 
 .income {
+  display: block;
+}
+
+.expenses {
   display: none;
 }
 
