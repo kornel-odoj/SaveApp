@@ -27,28 +27,67 @@ const incomeValue = document.querySelector('.input-value');
 const incomeAppend = document.querySelector('.add-income-wrapper');
 const expensesAppend = document.querySelector('.add-expenses-wrapper');
 const addButton = document.querySelector('.input-button');
-//add counter if income clicked add 1 etc.
+let recordCounter = 1;
+let wrapId;
+let deleteId;
+let editId;
 const addRecord = () => {
+    wrapId = 'w' + recordCounter;
+    deleteId = 'd' + recordCounter;
+    editId = 'e' + recordCounter;
     let name = incomeName.value;
     let value = incomeValue.value;
-    let wrap = document.createElement('div');
-    wrap.className = 'added-to-list';
-    counter == 1 ? incomeAppend.appendChild(wrap) : expensesAppend.appendChild(wrap);
-    let paragraph = document.createElement('p');
-    paragraph.innerText = `${name} - ${value}zł`;
-    wrap.appendChild(paragraph);
-    let editDeleteWrap = document.createElement('div');
-    editDeleteWrap.className = 'edit-delete-wrapper';
-    wrap.appendChild(editDeleteWrap);
-    let editButton = document.createElement('button');
-    editButton.className = 'edit-button';
-    editButton.innerText = 'Edytuj';
-    editDeleteWrap.appendChild(editButton);
-    let deleteButton = document.createElement('button');
-    deleteButton.className = 'delete-button';
-    deleteButton.innerText = 'Usuń';
-    editDeleteWrap.appendChild(deleteButton);
-    form.reset();
+    if (name !== '' && value !== '') {
+        let wrap = document.createElement('div');
+        wrap.className = 'added-to-list';
+        wrap.setAttribute('id', wrapId);
+        counter == 1 ? incomeAppend.appendChild(wrap) : expensesAppend.appendChild(wrap);
+        let paragraph = document.createElement('p');
+        paragraph.innerText = `${name} - ${value} zł`;
+        wrap.appendChild(paragraph);
+        let editDeleteWrap = document.createElement('div');
+        editDeleteWrap.className = 'edit-delete-wrapper';
+        wrap.appendChild(editDeleteWrap);
+        let editButton = document.createElement('button');
+        editButton.className = 'edit-button';
+        editButton.setAttribute('id', editId);
+        editButton.innerText = 'Edytuj';
+        editDeleteWrap.appendChild(editButton);
+        let deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-button';
+        deleteButton.setAttribute('id', deleteId)
+        deleteButton.innerText = 'Usuń';
+        editDeleteWrap.appendChild(deleteButton);
+        form.reset();
+        recordCounter++;
+    }
+    else {
+        alert('Pola \"nazwa\" oraz \"wartość\" muszą być wypełnione');
+    }   
 }
-
+console.log('deleteId: ' + deleteId + ' id type: ' + typeof(deleteId));;
+console.log('editId: ' + editId + ' id type: ' + typeof(editId));;
 addButton.addEventListener('click', addRecord);
+
+// const buttons = document.getElementsByTagName('button');
+// const buttonPressed = e => {
+//     console.log(e.target.id);
+// }
+// for (let button of buttons) {
+//     button.addEventListener('click', buttonPressed);
+// }
+
+document.addEventListener("click", function(event) {
+    if (event.target.tagName === "BUTTON") {
+        if (event.target.id.includes('d')){
+            const bId = event.target.id;
+            const wId = bId.replace('d', 'w');
+            const w = document.getElementById(wId);
+            // console.log(`bId: ${bId} wId: ${wId} w: ${w}`);
+            w.parentNode.removeChild(w);
+        }
+    }
+  });
+
+
+  

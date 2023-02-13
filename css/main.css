@@ -107,6 +107,10 @@ form input {
   display: none;
 }
 
+.line {
+  display: none;
+}
+
 @media screen and (min-width: 768px) {
   .wrapper {
     width: 768px;
