@@ -6,6 +6,22 @@ const form  = document.querySelector('.add-form');
 let counter = 1;
 let incomeSum = 0;
 let expensesSum = 0;
+let budgetInfo = document.querySelector('.budget-info');
+
+// console.log(balance);
+const refreshBalance = () => {
+    let balance = incomeSum - expensesSum;
+    if (balance == 0) {
+        budgetInfo.innerText = 'Bilans wynosi zero';
+}
+    else if (balance >= 0) {
+        budgetInfo.innerText = `Możesz wydać jeszcze ${balance} złotych`;
+}
+    else if (balance <= 0) {
+        budgetInfo.innerText = `Bilans jest ujemny. Jesteś na minusie ${balance*=(-1)} złotych`;
+}
+};
+
 const incomeExpenseChange = () => {
     incomeTitle.style.opacity = '0.5';
     expenseTitle.style.opacity = '1';
@@ -49,12 +65,8 @@ const addRecord = () => {
     inputValueId = 'v' + recordCounter;
     inputName = incomeName.value;
     value = incomeValue.value;
-    counter == 1 ? incomeSum = parseInt(incomeSum)+parseInt(value) : expensesSum = parseInt(expensesSum)+parseInt(value);
-    inc.innerText = incomeSum + ' zł';
-    exp.innerText = expensesSum + ' zł';
-    console.log('incomeSum: ' + incomeSum + ' expensesSum: ' + expensesSum + ' value: ' + value);
 
-    if (inputName !== '' && value !== '') {
+    if (inputName !== '' && value !== '' && value >=0) {
         //create and set class to wrapper
         let wrap = document.createElement('div');
         wrap.setAttribute('class', 'added-to-list');
@@ -114,9 +126,15 @@ const addRecord = () => {
         
         //increment counter
         recordCounter++;
+
+        
+        counter == 1 ? incomeSum = parseFloat(incomeSum)+parseFloat(value) : expensesSum = parseFloat(expensesSum)+parseFloat(value);
+        inc.innerText = incomeSum + ' zł';
+        exp.innerText = expensesSum + ' zł';
+        refreshBalance();
     }
     else {
-        alert('Pola \"nazwa\" oraz \"wartość\" muszą być wypełnione');
+        alert('Pola \"nazwa\" oraz \"wartość\" muszą być wypełnione \nPole \"wartość" musi mieć wartość nieujemną');
     }
 }
 
@@ -135,9 +153,9 @@ document.addEventListener("click", function(event) {
             const w = document.getElementById(wId);
             const pId = bId.replace('d', 'p');
             const p = document.getElementById(pId);
-            customValue = parseInt(p.getAttribute('custom-value'));
+            customValue = parseFloat(p.getAttribute('custom-value'));
             w.parentNode.removeChild(w);
-            counter == 1 ? incomeSum = parseInt(incomeSum) - parseInt(customValue) : expensesSum = parseInt(expensesSum) - parseInt(customValue);
+            counter == 1 ? incomeSum = parseFloat(incomeSum) - parseFloat(customValue) : expensesSum = parseFloat(expensesSum) - parseFloat(customValue);
             inc.innerText = incomeSum + ' zł';
             exp.innerText = expensesSum + ' zł';
         }
@@ -151,7 +169,7 @@ document.addEventListener("click", function(event) {
             const i = document.getElementById(iId);
             const e = document.getElementById(eId);
             const v = document.getElementById(vId);
-            customValue = parseInt(p.getAttribute('custom-value')); 
+            customValue = parseFloat(p.getAttribute('custom-value')); 
             console.log('customValue type: ' + typeof(customValue) + ' customValue: ' + customValue);
             if(editState === 1){
                 const replacement = i.value;
@@ -161,15 +179,14 @@ document.addEventListener("click", function(event) {
                 v.style.display = 'block';
                 e.innerText = "Aktualizuj";
                 console.log('income sum before: ' + incomeSum);
-                counter == 1 ? incomeSum = parseInt(incomeSum) - customValue : expensesSum = parseInt(expensesSum) - customValue;
+                counter == 1 ? incomeSum = parseFloat(incomeSum) - customValue : expensesSum = parseFloat(expensesSum) - customValue;
                 p.removeAttribute('custom-value');
-                console.log('income sum after: ' + incomeSum);
                 inc.innerText = incomeSum + ' zł';
                 exp.innerText = incomeSum + ' zł';
                 editState = 0;
             }
             else if (editState === 0){
-                const newValue = parseInt(v.value);
+                const newValue = parseFloat(v.value);
                 p.innerText = `${i.value} - ${newValue} zł`;
                 console.log(newValue);
                 p.style.display = 'block';
@@ -177,14 +194,14 @@ document.addEventListener("click", function(event) {
                 v.style.display = 'none';
                 e.innerText = "Edytuj";
                 p.setAttribute('custom-value', newValue);
-                counter == 1 ? incomeSum = parseInt(incomeSum) + newValue : expensesSum = parseInt(expensesSum) + newValue;
+                counter == 1 ? incomeSum = parseFloat(incomeSum) + newValue : expensesSum = parseFloat(expensesSum) + newValue;
                 inc.innerText = incomeSum + ' zł';
                 exp.innerText = expensesSum + ' zł';
                 editState = 1;
             }
         }
   }
-  console.log(incomeSum);
+  refreshBalance();
 });
 
 

@@ -129,6 +129,12 @@ form input {
   transition-duration: 0.4s;
 }
 
+.budget-info {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
 @media screen and (min-width: 768px) {
   .wrapper {
     width: 768px;

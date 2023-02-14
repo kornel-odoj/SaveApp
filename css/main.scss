@@ -118,7 +118,11 @@ form{
     padding: 0.5em;
     transition-duration: 0.4s;
 }
-
+.budget-info{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
 //desktop resolution
 
 @media screen and (min-width: 768px){
