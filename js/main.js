@@ -4,6 +4,8 @@ const incomeWrapper = document.querySelector('.income');
 const expensesWrapper = document.querySelector('.expenses');
 const form  = document.querySelector('.add-form');
 let counter = 1;
+let incomeSum = 0;
+let expensesSum = 0;
 const incomeExpenseChange = () => {
     incomeTitle.style.opacity = '0.5';
     expenseTitle.style.opacity = '1';
@@ -27,67 +29,164 @@ const incomeValue = document.querySelector('.input-value');
 const incomeAppend = document.querySelector('.add-income-wrapper');
 const expensesAppend = document.querySelector('.add-expenses-wrapper');
 const addButton = document.querySelector('.input-button');
+const inc = document.querySelector('#inc');
+const exp = document.querySelector('#exp');
 let recordCounter = 1;
 let wrapId;
 let deleteId;
 let editId;
+let inputNameId;
+let inputValueId;
+let inputVal;
+let inputName;
+let value;
 const addRecord = () => {
     wrapId = 'w' + recordCounter;
     deleteId = 'd' + recordCounter;
     editId = 'e' + recordCounter;
-    let name = incomeName.value;
-    let value = incomeValue.value;
-    if (name !== '' && value !== '') {
+    paragraphId = 'p' + recordCounter;
+    inputNameId = 'i' + recordCounter;
+    inputValueId = 'v' + recordCounter;
+    inputName = incomeName.value;
+    value = incomeValue.value;
+    counter == 1 ? incomeSum = parseInt(incomeSum)+parseInt(value) : expensesSum = parseInt(expensesSum)+parseInt(value);
+    inc.innerText = incomeSum + ' zł';
+    exp.innerText = expensesSum + ' zł';
+    console.log('incomeSum: ' + incomeSum + ' expensesSum: ' + expensesSum + ' value: ' + value);
+
+    if (inputName !== '' && value !== '') {
+        //create and set class to wrapper
         let wrap = document.createElement('div');
-        wrap.className = 'added-to-list';
+        wrap.setAttribute('class', 'added-to-list');
         wrap.setAttribute('id', wrapId);
+
+        //append wrapper to income or expense depending on counter state
         counter == 1 ? incomeAppend.appendChild(wrap) : expensesAppend.appendChild(wrap);
+        
+        //create and set class to paragraph
         let paragraph = document.createElement('p');
-        paragraph.innerText = `${name} - ${value} zł`;
+        paragraph.setAttribute('id', paragraphId);
+        paragraph.setAttribute('custom-value', value);
+        paragraph.innerText = `${inputName} - ${value} zł`;
+        
+        //append paragraph to wrapper
         wrap.appendChild(paragraph);
+        
+        //create, set class and append name input to wrapper
+        let input = document.createElement('input');
+        input.setAttribute('id', inputNameId);
+        input.setAttribute('class', 'update-input');
+        input.setAttribute('placeholder', 'Nazwa')
+        wrap.appendChild(input);
+        input.style.display = 'none';
+
+        //create, set class and append value inpput to wrapper
+        let inputv = document.createElement('input');
+        inputv.setAttribute('id', inputValueId);
+        inputv.setAttribute('class', 'update-input');
+        inputv.setAttribute('placeholder', 'Kwota');   
+        inputv.setAttribute('type', 'number');
+        wrap.appendChild(inputv);
+        inputv.style.display = 'none';
+        inputv.style.marginLeft = '0.5em';
+        
+        //create, set class and append buttons wrapper to main wrapper
         let editDeleteWrap = document.createElement('div');
-        editDeleteWrap.className = 'edit-delete-wrapper';
+        editDeleteWrap.setAttribute('class', 'edit-delete-wrapper');
         wrap.appendChild(editDeleteWrap);
+        
+        //create, set class and append edit button to buttons wrapper
         let editButton = document.createElement('button');
-        editButton.className = 'edit-button';
+        editButton.setAttribute('class', 'edit-button');
         editButton.setAttribute('id', editId);
         editButton.innerText = 'Edytuj';
         editDeleteWrap.appendChild(editButton);
+
+        //create, set class and append delete button to buttons wrapper
         let deleteButton = document.createElement('button');
-        deleteButton.className = 'delete-button';
+        deleteButton.setAttribute('class', 'delete-button');
         deleteButton.setAttribute('id', deleteId)
         deleteButton.innerText = 'Usuń';
         editDeleteWrap.appendChild(deleteButton);
+        
+        //reset form
         form.reset();
+        
+        //increment counter
         recordCounter++;
     }
     else {
         alert('Pola \"nazwa\" oraz \"wartość\" muszą być wypełnione');
-    }   
+    }
 }
-console.log('deleteId: ' + deleteId + ' id type: ' + typeof(deleteId));;
-console.log('editId: ' + editId + ' id type: ' + typeof(editId));;
+
 addButton.addEventListener('click', addRecord);
 
-// const buttons = document.getElementsByTagName('button');
-// const buttonPressed = e => {
-//     console.log(e.target.id);
-// }
-// for (let button of buttons) {
-//     button.addEventListener('click', buttonPressed);
-// }
+let editState = 1;
 
 document.addEventListener("click", function(event) {
     if (event.target.tagName === "BUTTON") {
+        
+        console.log('type of incomesum: ' + typeof incomeSum);
+        let customValue;
         if (event.target.id.includes('d')){
             const bId = event.target.id;
             const wId = bId.replace('d', 'w');
             const w = document.getElementById(wId);
-            // console.log(`bId: ${bId} wId: ${wId} w: ${w}`);
+            const pId = bId.replace('d', 'p');
+            const p = document.getElementById(pId);
+            customValue = parseInt(p.getAttribute('custom-value'));
             w.parentNode.removeChild(w);
+            counter == 1 ? incomeSum = parseInt(incomeSum) - parseInt(customValue) : expensesSum = parseInt(expensesSum) - parseInt(customValue);
+            inc.innerText = incomeSum + ' zł';
+            exp.innerText = expensesSum + ' zł';
         }
-    }
-  });
+        else if (event.target.id.includes('e')){
+            
+            const eId = event.target.id;
+            const pId = eId.replace('e', 'p');
+            const iId = eId.replace('e', 'i');
+            const vId = eId.replace('e', 'v');
+            const p = document.getElementById(pId);
+            const i = document.getElementById(iId);
+            const e = document.getElementById(eId);
+            const v = document.getElementById(vId);
+            customValue = parseInt(p.getAttribute('custom-value')); 
+            console.log('customValue type: ' + typeof(customValue) + ' customValue: ' + customValue);
+            if(editState === 1){
+                const replacement = i.value;
+                p.innerText = replacement;
+                p.style.display = 'none';
+                i.style.display = 'block';
+                v.style.display = 'block';
+                e.innerText = "Aktualizuj";
+                console.log('income sum before: ' + incomeSum);
+                counter == 1 ? incomeSum = parseInt(incomeSum) - customValue : expensesSum = parseInt(expensesSum) - customValue;
+                p.removeAttribute('custom-value');
+                console.log('income sum after: ' + incomeSum);
+                inc.innerText = incomeSum + ' zł';
+                exp.innerText = incomeSum + ' zł';
+                editState = 0;
+            }
+            else if (editState === 0){
+                const newValue = parseInt(v.value);
+                p.innerText = `${i.value} - ${newValue} zł`;
+                console.log(newValue);
+                p.style.display = 'block';
+                i.style.display = 'none';
+                v.style.display = 'none';
+                e.innerText = "Edytuj";
+                p.setAttribute('custom-value', newValue);
+                counter == 1 ? incomeSum = parseInt(incomeSum) + newValue : expensesSum = parseInt(expensesSum) + newValue;
+                inc.innerText = incomeSum + ' zł';
+                exp.innerText = expensesSum + ' zł';
+                editState = 1;
+            }
+        }
+  }
+  console.log(incomeSum);
+});
+
 
 
   
