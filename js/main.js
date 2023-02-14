@@ -128,7 +128,7 @@ const addRecord = () => {
         recordCounter++;
 
         
-        counter == 1 ? incomeSum = parseFloat(incomeSum)+parseFloat(value) : expensesSum = parseFloat(expensesSum)+parseFloat(value);
+        counter == 1 ? incomeSum = parseInt(incomeSum)+parseInt(value) : expensesSum = parseInt(expensesSum)+parseInt(value);
         inc.innerText = incomeSum + ' zł';
         exp.innerText = expensesSum + ' zł';
         refreshBalance();
@@ -153,9 +153,9 @@ document.addEventListener("click", function(event) {
             const w = document.getElementById(wId);
             const pId = bId.replace('d', 'p');
             const p = document.getElementById(pId);
-            customValue = parseFloat(p.getAttribute('custom-value'));
+            customValue = parseInt(p.getAttribute('custom-value'));
             w.parentNode.removeChild(w);
-            counter == 1 ? incomeSum = parseFloat(incomeSum) - parseFloat(customValue) : expensesSum = parseFloat(expensesSum) - parseFloat(customValue);
+            counter == 1 ? incomeSum = parseInt(incomeSum) - parseInt(customValue) : expensesSum = parseInt(expensesSum) - parseInt(customValue);
             inc.innerText = incomeSum + ' zł';
             exp.innerText = expensesSum + ' zł';
         }
@@ -169,7 +169,7 @@ document.addEventListener("click", function(event) {
             const i = document.getElementById(iId);
             const e = document.getElementById(eId);
             const v = document.getElementById(vId);
-            customValue = parseFloat(p.getAttribute('custom-value')); 
+            customValue = parseInt(p.getAttribute('custom-value')); 
             console.log('customValue type: ' + typeof(customValue) + ' customValue: ' + customValue);
             if(editState === 1){
                 const replacement = i.value;
@@ -179,14 +179,14 @@ document.addEventListener("click", function(event) {
                 v.style.display = 'block';
                 e.innerText = "Aktualizuj";
                 console.log('income sum before: ' + incomeSum);
-                counter == 1 ? incomeSum = parseFloat(incomeSum) - customValue : expensesSum = parseFloat(expensesSum) - customValue;
+                counter == 1 ? incomeSum = parseInt(incomeSum) - customValue : expensesSum = parseInt(expensesSum) - customValue;
                 p.removeAttribute('custom-value');
                 inc.innerText = incomeSum + ' zł';
                 exp.innerText = incomeSum + ' zł';
                 editState = 0;
             }
             else if (editState === 0){
-                const newValue = parseFloat(v.value);
+                const newValue = parseInt(v.value);
                 p.innerText = `${i.value} - ${newValue} zł`;
                 console.log(newValue);
                 p.style.display = 'block';
@@ -194,7 +194,7 @@ document.addEventListener("click", function(event) {
                 v.style.display = 'none';
                 e.innerText = "Edytuj";
                 p.setAttribute('custom-value', newValue);
-                counter == 1 ? incomeSum = parseFloat(incomeSum) + newValue : expensesSum = parseFloat(expensesSum) + newValue;
+                counter == 1 ? incomeSum = parseInt(incomeSum) + newValue : expensesSum = parseInt(expensesSum) + newValue;
                 inc.innerText = incomeSum + ' zł';
                 exp.innerText = expensesSum + ' zł';
                 editState = 1;
