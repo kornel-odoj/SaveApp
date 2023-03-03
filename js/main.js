@@ -1,3 +1,10 @@
+/*
+KOD JS ZOSTANIE PRZEBUDOWANY :)
+nie obejrzałem do końca wszystkich materiałów do czasu kiedy projekt został udostępniony,
+w wyniku czego niektóre funkcje są skomplikowane, mogą być uproszczone,
+dziękuję za wyrozumiałość ;)
+*/
+
 const incomeTitle = document.querySelector('.income-title');
 const expenseTitle = document.querySelector('.expenses-title');
 const incomeWrapper = document.querySelector('.income');
@@ -8,20 +15,20 @@ let incomeSum = 0;
 let expensesSum = 0;
 let budgetInfo = document.querySelector('.budget-info');
 
-// console.log(balance);
+// refresh balance
 const refreshBalance = () => {
     let balance = incomeSum - expensesSum;
     if (balance == 0) {
         budgetInfo.innerText = 'Bilans wynosi zero';
 }
     else if (balance >= 0) {
-        budgetInfo.innerText = `Możesz wydać jeszcze ${balance} złotych`;
+        budgetInfo.innerText = `Możesz jeszcze wydać ${balance} złotych`;
 }
     else if (balance <= 0) {
         budgetInfo.innerText = `Bilans jest ujemny. Jesteś na minusie ${balance*=(-1)} złotych`;
 }
 };
-
+// switch between income/expense page
 const incomeExpenseChange = () => {
     incomeTitle.style.opacity = '0.5';
     expenseTitle.style.opacity = '1';
@@ -56,6 +63,7 @@ let inputValueId;
 let inputVal;
 let inputName;
 let value;
+// add income/expense 
 const addRecord = () => {
     wrapId = 'w' + recordCounter;
     deleteId = 'd' + recordCounter;
@@ -63,10 +71,10 @@ const addRecord = () => {
     paragraphId = 'p' + recordCounter;
     inputNameId = 'i' + recordCounter;
     inputValueId = 'v' + recordCounter;
-    inputName = incomeName.value;
+    inputName = incomeName.value.trim();
     value = incomeValue.value;
 
-    if (inputName !== '' && value !== '' && value >=0) {
+    if (inputName !== '' && value !== '' && value > 0) {
         //create and set class to wrapper
         let wrap = document.createElement('div');
         wrap.setAttribute('class', 'added-to-list');
@@ -141,11 +149,10 @@ const addRecord = () => {
 addButton.addEventListener('click', addRecord);
 
 let editState = 1;
-
+// edit income/expense 
 document.addEventListener("click", function(event) {
     if (event.target.tagName === "BUTTON") {
         
-        console.log('type of incomesum: ' + typeof incomeSum);
         let customValue;
         if (event.target.id.includes('d')){
             const bId = event.target.id;
@@ -165,20 +172,21 @@ document.addEventListener("click", function(event) {
             const pId = eId.replace('e', 'p');
             const iId = eId.replace('e', 'i');
             const vId = eId.replace('e', 'v');
+            const dId = eId.replace('e', 'd');
             const p = document.getElementById(pId);
             const i = document.getElementById(iId);
             const e = document.getElementById(eId);
             const v = document.getElementById(vId);
+            const d = document.getElementById(dId);
             customValue = parseInt(p.getAttribute('custom-value')); 
-            console.log('customValue type: ' + typeof(customValue) + ' customValue: ' + customValue);
             if(editState === 1){
                 const replacement = i.value;
                 p.innerText = replacement;
                 p.style.display = 'none';
+                d.style.display = 'none';
                 i.style.display = 'block';
                 v.style.display = 'block';
                 e.innerText = "Aktualizuj";
-                console.log('income sum before: ' + incomeSum);
                 counter == 1 ? incomeSum = parseInt(incomeSum) - customValue : expensesSum = parseInt(expensesSum) - customValue;
                 p.removeAttribute('custom-value');
                 inc.innerText = incomeSum + ' zł';
@@ -186,18 +194,24 @@ document.addEventListener("click", function(event) {
                 editState = 0;
             }
             else if (editState === 0){
-                const newValue = parseInt(v.value);
-                p.innerText = `${i.value} - ${newValue} zł`;
-                console.log(newValue);
-                p.style.display = 'block';
-                i.style.display = 'none';
-                v.style.display = 'none';
-                e.innerText = "Edytuj";
-                p.setAttribute('custom-value', newValue);
-                counter == 1 ? incomeSum = parseInt(incomeSum) + newValue : expensesSum = parseInt(expensesSum) + newValue;
-                inc.innerText = incomeSum + ' zł';
-                exp.innerText = expensesSum + ' zł';
-                editState = 1;
+                if (v.value > 0 && i.value.trim() != ""){
+                    const newValue = parseInt(v.value);
+                    p.innerText = `${i.value} - ${newValue} zł`;
+                    p.style.display = 'block';
+                    d.style.display = 'inline-block';
+                    i.style.display = 'none';
+                    v.style.display = 'none';
+                    e.innerText = "Edytuj";
+                    p.setAttribute('custom-value', newValue);
+                    counter == 1 ? incomeSum = parseInt(incomeSum) + newValue : expensesSum = parseInt(expensesSum) + newValue;
+                    inc.innerText = incomeSum + ' zł';
+                    exp.innerText = expensesSum + ' zł';
+                    editState = 1;
+                }
+                else{
+                    alert('Pola \"nazwa\" oraz \"wartość\" muszą być wypełnione \nPole \"wartość" musi mieć wartość nieujemną');
+                }
+                
             }
         }
   }
