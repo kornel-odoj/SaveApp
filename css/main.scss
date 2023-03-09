@@ -44,7 +44,7 @@ form{
     display: flex;
     
     input:nth-child(2){
-        margin-left: 1em;
+        margin-left: 0.4em;
     }
     .input-button{
         margin-left: auto;
@@ -111,17 +111,23 @@ form{
 .line{
     display: none;
 }
-.update-input{
+.update-input-name, .update-input-amount{
     border: none;
     background-color: #D9D9D9;
     border-radius: 5px;
     padding: 0.5em;
     transition-duration: 0.4s;
 }
+.update-input-amount{
+    width: 100px;
+}
 .budget-info{
     text-align: center;
     font-weight: bold;
     font-size: 1.2em;
+}
+.result{
+    font-size: 3em;
 }
 //desktop resolution
 
@@ -130,4 +136,17 @@ form{
         width: 768px;
         margin: 0 auto;
     }
+}
+@media
+only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5){
+
+  html,
+  body{
+    width:100%;
+    overflow-x:hidden;
+  }
+
 }

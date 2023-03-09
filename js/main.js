@@ -1,10 +1,3 @@
-/*
-KOD JS ZOSTANIE PRZEBUDOWANY :)
-nie obejrzałem do końca wszystkich materiałów do czasu kiedy projekt został udostępniony,
-w wyniku czego niektóre funkcje są skomplikowane, mogą być uproszczone,
-dziękuję za wyrozumiałość ;)
-*/
-
 const incomeTitle = document.querySelector('.income-title');
 const expenseTitle = document.querySelector('.expenses-title');
 const incomeWrapper = document.querySelector('.income');
@@ -14,39 +7,6 @@ let counter = 1;
 let incomeSum = 0;
 let expensesSum = 0;
 let budgetInfo = document.querySelector('.budget-info');
-
-// refresh balance
-const refreshBalance = () => {
-    let balance = incomeSum - expensesSum;
-    if (balance == 0) {
-        budgetInfo.innerText = 'Bilans wynosi zero';
-}
-    else if (balance >= 0) {
-        budgetInfo.innerText = `Możesz jeszcze wydać ${balance} złotych`;
-}
-    else if (balance <= 0) {
-        budgetInfo.innerText = `Bilans jest ujemny. Jesteś na minusie ${balance*=(-1)} złotych`;
-}
-};
-// switch between income/expense page
-const incomeExpenseChange = () => {
-    incomeTitle.style.opacity = '0.5';
-    expenseTitle.style.opacity = '1';
-    incomeWrapper.style.display = 'none';
-    expensesWrapper.style.display = 'block';
-    counter = 0;
-}
-const expenseIncomeChange = () => {
-    incomeTitle.style.opacity = '1';
-    expenseTitle.style.opacity = '0.5';
-    incomeWrapper.style.display = 'block';
-    expensesWrapper.style.display = 'none';
-    counter = 1;
-}
-
-incomeTitle.addEventListener('click', expenseIncomeChange);
-expenseTitle.addEventListener('click', incomeExpenseChange);
-
 const incomeName = document.querySelector('.input-name');
 const incomeValue = document.querySelector('.input-value');
 const incomeAppend = document.querySelector('.add-income-wrapper');
@@ -63,6 +23,43 @@ let inputValueId;
 let inputVal;
 let inputName;
 let value;
+// refresh balance
+const refreshBalance = () => {
+    let balance = incomeSum - expensesSum;
+    if (balance == 0) {
+        budgetInfo.innerText = 'Bilans wynosi zero';
+}
+    else if (balance >= 0) {
+        budgetInfo.innerText = `Możesz jeszcze wydać ${balance} złotych`;
+}
+    else if (balance <= 0) {
+        budgetInfo.innerText = `Bilans jest ujemny. Jesteś na minusie ${balance*=(-1)} złotych`;
+}
+};
+window.addEventListener('load', refreshBalance);
+
+// switch between income/expense page
+const incomeExpenseChange = () => {
+    incomeTitle.style.opacity = '0.5';
+    expenseTitle.style.opacity = '1';
+    incomeWrapper.style.display = 'none';
+    expensesWrapper.style.display = 'block';
+    incomeName.setAttribute('placeholder', 'Nazwa wydatku');
+    counter = 0;
+}
+const expenseIncomeChange = () => {
+    incomeTitle.style.opacity = '1';
+    expenseTitle.style.opacity = '0.5';
+    incomeWrapper.style.display = 'block';
+    expensesWrapper.style.display = 'none';
+    incomeName.setAttribute('placeholder', 'Nazwa przychodu');
+    counter = 1;
+}
+
+incomeTitle.addEventListener('click', expenseIncomeChange);
+expenseTitle.addEventListener('click', incomeExpenseChange);
+
+
 // add income/expense 
 const addRecord = () => {
     wrapId = 'w' + recordCounter;
@@ -95,15 +92,15 @@ const addRecord = () => {
         //create, set class and append name input to wrapper
         let input = document.createElement('input');
         input.setAttribute('id', inputNameId);
-        input.setAttribute('class', 'update-input');
+        input.setAttribute('class', 'update-input-name');
         input.setAttribute('placeholder', 'Nazwa')
         wrap.appendChild(input);
         input.style.display = 'none';
 
-        //create, set class and append value inpput to wrapper
+        //create, set class and append value input to wrapper
         let inputv = document.createElement('input');
         inputv.setAttribute('id', inputValueId);
-        inputv.setAttribute('class', 'update-input');
+        inputv.setAttribute('class', 'update-input-amount');
         inputv.setAttribute('placeholder', 'Kwota');   
         inputv.setAttribute('type', 'number');
         wrap.appendChild(inputv);
@@ -142,7 +139,12 @@ const addRecord = () => {
         refreshBalance();
     }
     else {
-        alert('Pola \"nazwa\" oraz \"wartość\" muszą być wypełnione \nPole \"wartość" musi mieć wartość nieujemną');
+        swal({
+            title: "Uzupełnij poprawnie dane.",
+            text: "Pola \"nazwa\" oraz \"wartość\" muszą być wypełnione. \nPole \"wartość\" musi mieć wartość dodatnią.",
+            icon: "error",
+            button: "OK",
+          });
     }
 }
 
@@ -209,7 +211,12 @@ document.addEventListener("click", function(event) {
                     editState = 1;
                 }
                 else{
-                    alert('Pola \"nazwa\" oraz \"wartość\" muszą być wypełnione \nPole \"wartość" musi mieć wartość nieujemną');
+                    swal({
+                        title: "Uzupełnij poprawnie dane.",
+                        text: "Pola \"nazwa\" oraz \"wartość\" muszą być wypełnione. \nPole \"wartość\" musi mieć wartość dodatnią.",
+                        icon: "error",
+                        button: "OK",
+                      });
                 }
                 
             }
